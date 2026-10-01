@@ -1,0 +1,21 @@
+# Репостер закрытого чата Telegram в закрытую группу ВК.
+# Первый вход (код из Telegram нужен один раз):
+#   docker compose run --rm -it reposter
+# Дальше:
+#   docker compose up -d
+#   docker compose logs -f
+
+services:
+  reposter:
+    build: .
+    image: tg-vk-reposter:latest
+    container_name: tg-vk-reposter
+    env_file:
+      - .env
+    environment:
+      SESSION_DIR: /data
+    volumes:
+      - ./sessions:/data
+    restart: unless-stopped
+    stop_grace_period: 40s
+    init: true
